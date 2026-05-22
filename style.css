@@ -74,112 +74,7 @@ body {
   }
 }
 
-/* Status Bar & Header */
-.app-header {
-  padding: 20px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--panel-border);
-  background: rgba(15, 23, 42, 0.4);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-icon {
-  width: 28px;
-  height: 28px;
-  fill: var(--color-primary);
-  filter: drop-shadow(0 0 6px var(--color-primary-glow));
-}
-
-.brand-title {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  background: linear-gradient(135deg, #ffffff 30%, var(--color-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Demo Mode Toggle Switch */
-.demo-toggle-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.demo-toggle-container:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.demo-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.demo-toggle-container.active .demo-label {
-  color: var(--color-warning);
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 34px;
-  height: 20px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #334155;
-  transition: .3s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .3s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: var(--color-warning);
-}
-
-input:checked + .slider:before {
-  transform: translateX(14px);
-}
+/* Header section removed */
 
 /* GPS Status Bar */
 .gps-bar {
@@ -269,12 +164,23 @@ input:checked + .slider:before {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 
-/* Stage Odometer Display */
+/* Stage Odometer Display Row */
+.stage-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: stretch;
+}
+
 .stage-card {
-  text-align: center;
-  padding: 32px 24px;
+  text-align: left;
+  padding: 16px 20px;
   border: 1px solid rgba(6, 182, 212, 0.15);
   box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .stage-card::after {
@@ -296,9 +202,9 @@ input:checked + .slider:before {
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 6px;
 }
@@ -309,15 +215,20 @@ input:checked + .slider:before {
   fill: currentColor;
 }
 
+.odometer-value-container {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
 .odometer-value {
   font-family: var(--font-display);
-  font-size: 4.75rem;
+  font-size: 3.5rem; /* Slightly reduced to give numbers maximum horizontal space */
   font-weight: 800;
   line-height: 1;
   color: var(--color-primary);
   text-shadow: 0 0 20px var(--color-primary-glow);
   letter-spacing: -1px;
-  margin-bottom: 4px;
   transition: var(--transition-smooth);
 }
 
@@ -412,94 +323,120 @@ input:checked + .slider:before {
 }
 
 .main-controls {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .btn {
   border: none;
-  border-radius: 20px;
+  border-radius: 24px;
   font-family: var(--font-sans);
-  font-size: 1rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   transition: var(--transition-smooth);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   user-select: none;
 }
 
-.btn svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-  transition: var(--transition-smooth);
-}
-
 .btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
-/* Start / Stop Button states */
+/* Start / Stop Button (Sleek Vertical) */
 .btn-toggle {
-  height: 64px;
+  width: 108px;
+  height: auto;
+  font-size: 1.1rem;
   color: #ffffff;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 8px;
+  border-radius: 24px;
+}
+
+.btn-toggle svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
 }
 
 .btn-toggle.start {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
 }
 
 .btn-toggle.start:hover {
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  box-shadow: 0 4px 25px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
 }
 
 .btn-toggle.stop {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25);
   animation: pulse-danger 2s infinite;
 }
 
 .btn-toggle.stop:hover {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.35);
 }
 
 @keyframes pulse-danger {
-  0% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3); }
-  50% { box-shadow: 0 4px 25px rgba(239, 68, 68, 0.6); }
-  100% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3); }
+  0% { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25); }
+  50% { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5); }
+  100% { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25); }
 }
 
-/* Next Button style */
+/* Next Button (The Largest Button!) */
 .btn-next {
-  height: 64px;
+  height: 96px;
+  font-size: 1.6rem;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-next svg {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
 }
 
 .btn-next:hover {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 25px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 10px 32px rgba(59, 130, 246, 0.55);
 }
 
 /* Reset Button style */
 .btn-reset {
   height: 52px;
+  font-size: 0.95rem;
   background: rgba(30, 41, 59, 0.8);
   border: 1px solid var(--panel-border);
   color: var(--text-muted);
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.btn-reset svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  opacity: 0.7;
+  transition: var(--transition-smooth);
 }
 
 .btn-reset:hover {
@@ -507,10 +444,6 @@ input:checked + .slider:before {
   border-color: rgba(239, 68, 68, 0.3);
   color: #fca5a5;
   box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
-}
-
-.btn-reset svg {
-  opacity: 0.7;
 }
 
 .btn-reset:hover svg {

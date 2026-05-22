@@ -30,8 +30,6 @@ const btnResetEl = document.getElementById('btn-reset');
 const gpsDotEl = document.getElementById('gps-dot');
 const gpsStatusTextEl = document.getElementById('gps-status-text');
 const gpsAccuracyEl = document.getElementById('gps-accuracy');
-const demoCheckboxEl = document.getElementById('demo-checkbox');
-const demoToggleContainerEl = document.getElementById('demo-toggle');
 const historyListEl = document.getElementById('history-list');
 const historyEmptyEl = document.getElementById('history-empty');
 const historyCountEl = document.getElementById('history-count');
@@ -238,9 +236,6 @@ function startTracking() {
   `;
   btnToggleEl.className = 'btn btn-toggle stop';
   
-  // Disable Demo Mode checkbox while running
-  demoCheckboxEl.disabled = true;
-  
   // Start Odometer Timers
   timerIntervalId = setInterval(updateTimers, 1000);
   updateTimers();
@@ -309,9 +304,6 @@ function stopTracking() {
     Start
   `;
   btnToggleEl.className = 'btn btn-toggle start';
-  
-  // Enable Demo Mode checkbox
-  demoCheckboxEl.disabled = false;
   
   // Stop intervals
   if (timerIntervalId) {
@@ -463,22 +455,37 @@ function startDemoSimulation() {
   }, 1000);
 }
 
-function handleDemoToggle() {
-  triggerHaptic(40);
-  const isChecked = demoCheckboxEl.checked;
-  state.demoActive = isChecked;
+// Hidden Demo Mode trigger (easter egg: 5 taps on Total Odometer Card)
+let totalCardClicks = 0;
+let totalCardClicksTimeout = null;
+
+function handleHiddenDemoTrigger() {
+  totalCardClicks++;
+  triggerHaptic(30);
   
-  if (isChecked) {
-    demoToggleContainerEl.classList.add('active');
-    gpsDotEl.className = 'gps-dot acquiring';
-    gpsStatusTextEl.textContent = 'Tryb Demo gotowy';
-    showToast('Włączono symulator (Tryb Demo)');
+  if (totalCardClicksTimeout) clearTimeout(totalCardClicksTimeout);
+  
+  if (totalCardClicks >= 5) {
+    totalCardClicks = 0;
+    triggerHaptic(150);
+    state.demoActive = !state.demoActive;
+    
+    if (state.demoActive) {
+      gpsDotEl.className = 'gps-dot acquiring';
+      gpsStatusTextEl.textContent = 'Tryb Demo aktywny';
+      showToast('Aktywowano ukryty Symulator GPS');
+    } else {
+      if (state.trackingActive) {
+        stopTracking();
+      }
+      gpsDotEl.className = 'gps-dot';
+      gpsStatusTextEl.textContent = 'Śledzenie wyłączone';
+      showToast('Wyłączono Symulator GPS');
+    }
   } else {
-    demoToggleContainerEl.classList.remove('active');
-    gpsDotEl.className = 'gps-dot';
-    gpsStatusTextEl.textContent = 'Śledzenie wyłączone';
-    gpsAccuracyEl.textContent = '';
-    showToast('Wyłączono symulator');
+    totalCardClicksTimeout = setTimeout(() => {
+      totalCardClicks = 0;
+    }, 3000);
   }
 }
 
@@ -542,15 +549,8 @@ function init() {
   btnConfirmCancelEl.addEventListener('click', hideResetConfirmation);
   btnConfirmOkEl.addEventListener('click', resetAll);
   
-  demoCheckboxEl.addEventListener('change', handleDemoToggle);
-  
-  // Custom click binding for the entire demo container for easier clicking on mobile
-  demoToggleContainerEl.addEventListener('click', (e) => {
-    if (e.target !== demoCheckboxEl && !demoCheckboxEl.contains(e.target)) {
-      demoCheckboxEl.checked = !demoCheckboxEl.checked;
-      handleDemoToggle();
-    }
-  });
+  // Bind hidden demo easter egg to the Total Odometer Card
+  document.querySelector('.total-card').addEventListener('click', handleHiddenDemoTrigger);
   
   // Load saved state if any
   loadStateFromLocalStorage();

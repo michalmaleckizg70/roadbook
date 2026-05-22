@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Aplikacja mobilna Roadbook do liczenia kilometrów GPS z podziałem na etapy">
+  <title>Roadbook - Licznik Kilometrów GPS</title>
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%230f172a'/><circle cx='256' cy='256' r='180' stroke='%2306b6d4' stroke-width='24' fill='none'/><circle cx='256' cy='256' r='80' fill='%2310b981'/></svg>">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <!-- SVG GPS Logo -->
+        <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span class="brand-title">ROADBOOK</span>
+      </div>
+      
+      <!-- Demo Mode Toggler -->
+      <div class="demo-toggle-container" id="demo-toggle" title="Włącz symulator ruchu w miejscu">
+        <span class="demo-label">Demo</span>
+        <label class="switch">
+          <input type="checkbox" id="demo-checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+    
+    <!-- GPS Bar -->
+    <div class="gps-bar">
+      <div class="gps-status">
+        <span class="gps-dot" id="gps-dot"></span>
+        <span id="gps-status-text">Śledzenie wyłączone</span>
+      </div>
+      <div class="gps-accuracy" id="gps-accuracy"></div>
+    </div>
+    
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+      
+      <!-- Stage Odometer Card -->
+      <div class="glass-card stage-card">
+        <div class="odometer-label">
+          <!-- SVG Flag Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/>
+          </svg>
+          Odcinek
+        </div>
+        <div class="odometer-value" id="stage-odo">0.00</div>
+        <div class="odometer-unit">km</div>
+      </div>
+      
+      <!-- Stats Grid (Total distance & Timers) -->
+      <div class="stats-grid">
+        
+        <!-- Total Odometer Card -->
+        <div class="glass-card total-card">
+          <div class="total-left">
+            <div class="odometer-label" style="justify-content: flex-start; margin-bottom: 2px;">
+              <!-- SVG Map Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+              </svg>
+              Suma Trasy
+            </div>
+            <div class="total-value-container">
+              <div class="total-value" id="total-odo">0.00</div>
+              <div class="total-unit">km</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Timers Row -->
+        <div class="details-row">
+          <div class="detail-item">
+            <!-- SVG Timer Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M19.03 3.57l1.39-1.39c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.39 1.39C21.43 6.58 22 8.21 22 10c0 5.52-4.48 10-10 10S2 15.52 2 10 6.48 0 12 0c1.79 0 3.42.57 4.74 1.54l1.39-1.39c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-1.39 1.39c.88 1 1.43 2.3 1.43 3.73v.01zM11 6v6h6v-2h-4V6h-2z"/>
+            </svg>
+            <span>Etap:</span>
+            <span class="detail-value" id="stage-time">00:00</span>
+          </div>
+          <div class="detail-item">
+            <!-- SVG Clock Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+            </svg>
+            <span>Suma:</span>
+            <span class="detail-value" id="total-time">00:00</span>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Control Buttons -->
+      <div class="controls-container">
+        <div class="main-controls">
+          <!-- Toggle Button (Start/Stop) -->
+          <button class="btn btn-toggle start" id="btn-toggle">
+            <!-- SVG Play Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Start
+          </button>
+          
+          <!-- Next Button -->
+          <button class="btn btn-next" id="btn-next" title="Zakończ obecny odcinek i zacznij następny">
+            <!-- SVG Skip Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+            </svg>
+            Next
+          </button>
+        </div>
+        
+        <!-- Reset Button -->
+        <button class="btn btn-reset" id="btn-reset" title="Wyczyść wszystkie liczniki">
+          <!-- SVG Reset/Rotate Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+          </svg>
+          Reset trasy
+        </button>
+      </div>
+      
+      <!-- Stage History Section -->
+      <div class="history-section">
+        <div class="history-header">
+          <span class="history-title">Historia Etapów</span>
+          <span class="history-count" id="history-count">0</span>
+        </div>
+        
+        <!-- List of Stages -->
+        <div class="history-list-wrapper" id="history-list" style="display: none;">
+          <!-- Stage Log Cards injected by JS -->
+        </div>
+        
+        <!-- Empty State -->
+        <div class="history-empty" id="history-empty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" opacity="0.4"/>
+            <path d="M19 15v3h3v2h-3v3h-2v-3h-3v-2h3v-3h2z"/>
+          </svg>
+          <div class="history-empty-text">Brak zapisanych etapów. Klikaj „Next” w podróży, aby zapisywać odcinki!</div>
+        </div>
+      </div>
+      
+    </main>
+    
+    <!-- Floating Toast Notification -->
+    <div class="toast" id="toast">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+      <span id="toast-text">Powiadomienie</span>
+    </div>
+    
+    <!-- Custom Dialog Overlay -->
+    <div class="confirm-overlay" id="confirm-overlay">
+      <div class="confirm-card">
+        <div class="confirm-title">Potwierdzenie resetu</div>
+        <div class="confirm-desc">Czy na pewno chcesz zresetować obecne liczniki (odcinek oraz sumę) i wyczyścić całą historię etapów? Tego kroku nie można cofnąć.</div>
+        <div class="confirm-buttons">
+          <button class="btn btn-dialog btn-confirm-cancel" id="btn-confirm-cancel">Anuluj</button>
+          <button class="btn btn-dialog btn-confirm-ok" id="btn-confirm-ok">Tak, resetuj</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

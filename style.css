@@ -103,26 +103,25 @@ body {
 }
 
 .gps-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--text-dark);
+  width: 24px;
+  height: 24px;
+  fill: var(--text-dark);
   transition: var(--transition-smooth);
 }
 
 .gps-dot.connected {
-  background-color: var(--color-secondary);
-  box-shadow: 0 0 8px var(--color-secondary-glow);
+  fill: var(--color-secondary);
+  filter: drop-shadow(0 0 8px var(--color-secondary-glow));
 }
 
 .gps-dot.acquiring {
-  background-color: var(--color-warning);
+  fill: var(--color-warning);
   animation: blink 1s infinite alternate;
 }
 
 .gps-dot.error {
-  background-color: var(--color-danger);
-  box-shadow: 0 0 8px var(--color-danger-glow);
+  fill: var(--color-danger);
+  filter: drop-shadow(0 0 8px var(--color-danger-glow));
 }
 
 .gps-accuracy {
@@ -575,6 +574,16 @@ body {
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--text-main);
+}
+
+.stage-log-cumulative {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-top: 1px;
+  margin-bottom: 2px;
+  letter-spacing: 0.2px;
 }
 
 .stage-duration {

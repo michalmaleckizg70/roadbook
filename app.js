@@ -344,6 +344,7 @@ function nextStage() {
     const completedStage = {
       id: nextId,
       distance: state.stageDistance,
+      totalDistance: state.totalDistance,
       durationMs: currentStageElapsed,
       timestamp: Date.now()
     };
@@ -514,6 +515,7 @@ function renderHistory() {
     
     const formattedTime = new Date(stage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     const durationText = formatDuration(stage.durationMs);
+    const totalDist = stage.totalDistance !== undefined ? stage.totalDistance : stage.distance;
     
     card.innerHTML = `
       <div class="stage-log-left">
@@ -525,6 +527,7 @@ function renderHistory() {
       </div>
       <div class="stage-log-right">
         <div class="stage-log-distance">${stage.distance.toFixed(2)} km</div>
+        <div class="stage-log-cumulative">Suma: ${totalDist.toFixed(2)} km</div>
         <div class="stage-duration">${durationText}</div>
       </div>
     `;

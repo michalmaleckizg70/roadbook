@@ -115,7 +115,8 @@ body {
 }
 
 .gps-dot.acquiring {
-  fill: var(--color-warning);
+  fill: var(--color-secondary);
+  filter: drop-shadow(0 0 8px var(--color-secondary-glow));
   animation: blink 1s infinite alternate;
 }
 

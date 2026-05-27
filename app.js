@@ -1,4 +1,4 @@
-/* app.js - Core Logic for Roadbook Odometer */
+a/* app.js - Core Logic for Roadbook Odometer */
 
 // State variables
 let state = {
@@ -71,7 +71,7 @@ function loadStateFromLocalStorage() {
       state.stageHistory = data.stageHistory || [];
       state.totalElapsedMs = data.totalElapsedMs || 0;
       state.stageElapsedMs = data.stageElapsedMs || 0;
-      
+
       updateUI();
       renderHistory();
       showToast('Wczytano poprzednią trasę z pamięci');
@@ -114,7 +114,7 @@ let toastTimeoutId = null;
 function showToast(message) {
   toastTextEl.textContent = message;
   toastEl.classList.add('show');
-  
+
   if (toastTimeoutId) clearTimeout(toastTimeoutId);
   toastTimeoutId = setTimeout(() => {
     toastEl.classList.remove('show');
@@ -181,13 +181,13 @@ function filterGpsPoint(newLat, newLon, newAccuracy, newTimestamp) {
   // Success: point accepted
   state.stageDistance += d;
   state.totalDistance += d;
-  
+
   lastPosition = { lat: newLat, lon: newLon, accuracy: newAccuracy, timestamp: newTimestamp };
-  
+
   gpsDotEl.className = 'gps-dot connected';
   gpsStatusTextEl.textContent = 'Połączono';
   gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
-  
+
   updateUI();
   saveStateToLocalStorage();
   return true;
@@ -199,9 +199,9 @@ function formatDuration(ms) {
   const hrs = Math.floor(totalSecs / 3600);
   const mins = Math.floor((totalSecs % 3600) / 60);
   const secs = totalSecs % 60;
-  
+
   const pad = (num) => String(num).padStart(2, '0');
-  
+
   if (hrs > 0) {
     return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
   }
@@ -210,10 +210,10 @@ function formatDuration(ms) {
 
 function updateTimers() {
   const now = Date.now();
-  
+
   const currentStageElapsed = state.stageElapsedMs + (state.trackingActive ? (now - state.stageStartTime) : 0);
   const currentTotalElapsed = state.totalElapsedMs + (state.trackingActive ? (now - state.totalStartTime) : 0);
-  
+
   stageTimeEl.textContent = formatDuration(currentStageElapsed);
   totalTimeEl.textContent = formatDuration(currentTotalElapsed);
 }
@@ -221,21 +221,21 @@ function updateTimers() {
 // --- GPS START/STOP LOGIC ---
 function startTracking() {
   if (state.trackingActive) return;
-  
+
   triggerHaptic(60);
   state.trackingActive = true;
   state.stageStartTime = Date.now();
   state.totalStartTime = Date.now();
-  
+
   requestWakeLock();
-  
+
   // Transition button to Stop
   btnToggleEl.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     Stop
   `;
   btnToggleEl.className = 'btn btn-toggle stop';
-  
+
   // Start Odometer Timers
   timerIntervalId = setInterval(updateTimers, 1000);
   updateTimers();
@@ -246,7 +246,7 @@ function startTracking() {
     // Start Geolocation watch
     gpsDotEl.className = 'gps-dot acquiring';
     gpsStatusTextEl.textContent = 'Ustalanie pozycji...';
-    
+
     if ("geolocation" in navigator) {
       watchId = navigator.geolocation.watchPosition(
         (position) => {
@@ -287,46 +287,46 @@ function startTracking() {
 
 function stopTracking() {
   if (!state.trackingActive) return;
-  
+
   triggerHaptic(40);
   state.trackingActive = false;
-  
+
   // Save current timer states
   const now = Date.now();
   state.stageElapsedMs += (now - state.stageStartTime);
   state.totalElapsedMs += (now - state.totalStartTime);
-  
+
   releaseWakeLock();
-  
+
   // Transition button to Start
   btnToggleEl.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     Start
   `;
   btnToggleEl.className = 'btn btn-toggle start';
-  
+
   // Stop intervals
   if (timerIntervalId) {
     clearInterval(timerIntervalId);
     timerIntervalId = null;
   }
-  
+
   if (watchId !== null) {
     navigator.geolocation.clearWatch(watchId);
     watchId = null;
   }
-  
+
   if (demoIntervalId) {
     clearInterval(demoIntervalId);
     demoIntervalId = null;
   }
-  
+
   lastPosition = null;
-  
+
   gpsDotEl.className = 'gps-dot';
   gpsStatusTextEl.textContent = state.demoActive ? 'Tryb Demo gotowy' : 'Śledzenie wyłączone';
   gpsAccuracyEl.textContent = '';
-  
+
   saveStateToLocalStorage();
   updateUI();
 }
@@ -334,10 +334,10 @@ function stopTracking() {
 // --- NEXT STAGE LOGIC ---
 function nextStage() {
   triggerHaptic(50);
-  
+
   const now = Date.now();
   const currentStageElapsed = state.stageElapsedMs + (state.trackingActive ? (now - state.stageStartTime) : 0);
-  
+
   // 1. Save current stage if distance > 0 or has elapsed time
   if (state.stageDistance > 0 || currentStageElapsed > 0) {
     const nextId = state.stageHistory.length + 1;
@@ -348,21 +348,21 @@ function nextStage() {
       durationMs: currentStageElapsed,
       timestamp: Date.now()
     };
-    
+
     state.stageHistory.unshift(completedStage); // Add to the top of list
     showToast(`Etap ${nextId} zapisany: ${state.stageDistance.toFixed(2)} km`);
   } else {
     showToast('Etap pusty - brak dystansu');
   }
-  
+
   // 2. Reset stage values
   state.stageDistance = 0.0;
   state.stageElapsedMs = 0;
   state.stageStartTime = state.trackingActive ? Date.now() : null;
-  
+
   // Restart lastPosition logic to avoid telemetry leaps
   lastPosition = null;
-  
+
   updateUI();
   renderHistory();
   saveStateToLocalStorage();
@@ -381,13 +381,13 @@ function hideResetConfirmation() {
 function resetAll() {
   triggerHaptic(80);
   hideResetConfirmation();
-  
+
   // Stop tracking if active
   const wasTracking = state.trackingActive;
   if (wasTracking) {
     stopTracking();
   }
-  
+
   // Reset all state variables
   state.stageDistance = 0.0;
   state.totalDistance = 0.0;
@@ -396,21 +396,21 @@ function resetAll() {
   state.stageElapsedMs = 0;
   state.stageStartTime = null;
   state.totalStartTime = null;
-  
+
   lastPosition = null;
-  
+
   // Clear localStorage
   localStorage.removeItem('roadbook_state');
-  
+
   // Update UI elements
   updateUI();
   renderHistory();
-  
+
   stageTimeEl.textContent = '00:00';
   totalTimeEl.textContent = '00:00';
-  
+
   showToast('Leczniki zresetowane do zera');
-  
+
   // If was tracking, we stay stopped
 }
 
@@ -418,39 +418,39 @@ function resetAll() {
 function startDemoSimulation() {
   gpsDotEl.className = 'gps-dot connected';
   gpsStatusTextEl.textContent = 'Tryb Demo (W ruchu)';
-  
+
   // Base coordinates near a scenic route (e.g. Tatra mountains / Zakopane road)
   let lat = 49.299;
   let lon = 19.949;
   let simulatedAccuracy = 3.0; // 3 meters accuracy
-  
+
   lastPosition = { lat, lon, accuracy: simulatedAccuracy, timestamp: Date.now() };
-  
+
   demoIntervalId = setInterval(() => {
     // Generate simulated driving movement:
     // Speed: ~54 km/h = 15 m/s = 0.015 km/s
     // Add small random noise to make the odometer fluctuate realistically (0.011 to 0.019 km per second)
     const deltaKm = 0.011 + (Math.random() * 0.008);
-    
+
     // Convert distance to latitude/longitude increments (approximate for Europe)
     // 1 km is roughly 0.009 degrees of latitude
     // 1 km is roughly 0.014 degrees of longitude at this latitude
     const latIncrement = (deltaKm * 0.009) * (0.8 + Math.random() * 0.4);
     const lonIncrement = (deltaKm * 0.014) * (0.8 + Math.random() * 0.4);
-    
+
     lat += latIncrement;
     lon += lonIncrement;
-    
+
     // Vary accuracy slightly
     simulatedAccuracy = 2.0 + Math.random() * 2.0;
-    
+
     // Add to distance
     state.stageDistance += deltaKm;
     state.totalDistance += deltaKm;
-    
+
     // Update GPS status text with simulated accuracy
     gpsAccuracyEl.textContent = `dokładność: ±${simulatedAccuracy.toFixed(1)}m (Demo)`;
-    
+
     updateUI();
     saveStateToLocalStorage();
   }, 1000);
@@ -463,14 +463,14 @@ let totalCardClicksTimeout = null;
 function handleHiddenDemoTrigger() {
   totalCardClicks++;
   triggerHaptic(30);
-  
+
   if (totalCardClicksTimeout) clearTimeout(totalCardClicksTimeout);
-  
+
   if (totalCardClicks >= 5) {
     totalCardClicks = 0;
     triggerHaptic(150);
     state.demoActive = !state.demoActive;
-    
+
     if (state.demoActive) {
       gpsDotEl.className = 'gps-dot acquiring';
       gpsStatusTextEl.textContent = 'Tryb Demo aktywny';
@@ -503,20 +503,20 @@ function renderHistory() {
     historyListEl.style.display = 'none';
     return;
   }
-  
+
   historyEmptyEl.style.display = 'none';
   historyListEl.style.display = 'flex';
-  
+
   historyListEl.innerHTML = '';
-  
+
   state.stageHistory.forEach(stage => {
     const card = document.createElement('div');
     card.className = 'stage-log-card';
-    
-    const formattedTime = new Date(stage.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    const formattedTime = new Date(stage.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const durationText = formatDuration(stage.durationMs);
     const totalDist = stage.totalDistance !== undefined ? stage.totalDistance : stage.distance;
-    
+
     card.innerHTML = `
       <div class="stage-log-left">
         <div class="stage-number-badge">${stage.id}</div>
@@ -545,19 +545,19 @@ function init() {
       startTracking();
     }
   });
-  
+
   btnNextEl.addEventListener('click', nextStage);
   btnResetEl.addEventListener('click', showResetConfirmation);
-  
+
   btnConfirmCancelEl.addEventListener('click', hideResetConfirmation);
   btnConfirmOkEl.addEventListener('click', resetAll);
-  
+
   // Bind hidden demo easter egg to the Total Odometer Card
   document.querySelector('.total-card').addEventListener('click', handleHiddenDemoTrigger);
-  
+
   // Load saved state if any
   loadStateFromLocalStorage();
-  
+
   // Initial updates
   updateUI();
   renderHistory();

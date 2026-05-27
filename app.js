@@ -1,4 +1,4 @@
-a/* app.js - Core Logic for Roadbook Odometer */
+/* app.js - Core Logic for Roadbook Odometer */
 
 // State variables
 let state = {

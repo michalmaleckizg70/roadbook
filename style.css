@@ -3,29 +3,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #090d16;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #1e294b 0%, #090d16 100%);
-  --panel-bg: rgba(15, 23, 42, 0.65);
-  --panel-border: rgba(255, 255, 255, 0.08);
-  --panel-glow: rgba(6, 182, 212, 0.15);
+  --bg-dark: #000000;
+  --bg-gradient: linear-gradient(180deg, #0f0f0f 0%, #000000 100%);
+  --panel-bg: #000000;
+  --panel-border: #ffffff;
+  --panel-glow: rgba(255, 255, 255, 0.1);
   
-  --color-primary: #06b6d4;     /* Electric Cyan */
-  --color-primary-glow: rgba(6, 182, 212, 0.4);
-  --color-secondary: #10b981;   /* Emerald Green */
-  --color-secondary-glow: rgba(16, 185, 129, 0.4);
-  --color-danger: #ef4444;      /* Crimson Red */
-  --color-danger-glow: rgba(239, 68, 68, 0.4);
-  --color-warning: #f59e0b;     /* Amber Orange */
+  --color-primary: #ffffff;     /* Stark White */
+  --color-primary-glow: rgba(255, 255, 255, 0.6);
+  --color-secondary: #00ff66;   /* Bright Neon Green for GPS Antenna */
+  --color-secondary-glow: rgba(0, 255, 102, 0.5);
+  --color-danger: #ff3333;      /* Stark Red for GPS Error / Stop buttons */
+  --color-danger-glow: rgba(255, 51, 51, 0.5);
+  --color-warning: #ffffff;     /* Stark White */
   
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-dark: #475569;
+  --text-main: #ffffff;
+  --text-muted: #a3a3a3;
+  --text-dark: #404040;
   
   --font-display: 'Outfit', sans-serif;
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   
-  --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -53,7 +53,7 @@ body {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
@@ -75,8 +75,8 @@ body {
     max-width: 480px;
     height: 850px;
     border-radius: 40px;
-    border: 8px solid #1e293b;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 12px #334155;
+    border: 8px solid #262626;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 12px #171717;
     overflow: hidden;
   }
 }
@@ -86,13 +86,13 @@ body {
 /* GPS Status Bar */
 .gps-bar {
   padding: calc(12px + env(safe-area-inset-top, 0)) 24px 12px 24px;
-  background: rgba(15, 23, 42, 0.2);
+  background: #000000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
   font-weight: 600;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  border-bottom: 1.5px solid #262626;
 }
 
 .gps-status {
@@ -152,7 +152,7 @@ body {
 /* Frosted Glass Card */
 .glass-card {
   background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
+  border: 1.5px solid var(--panel-border);
   border-radius: 24px;
   padding: 24px;
   box-shadow: var(--shadow-glow);
@@ -168,7 +168,7 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
 /* Stage Odometer Display Row */
@@ -182,8 +182,8 @@ body {
 .stage-card {
   text-align: left;
   padding: 16px 20px;
-  border: 1px solid rgba(6, 182, 212, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.05);
+  border: 2.5px solid var(--panel-border);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -198,7 +198,7 @@ body {
   width: 200px;
   height: 200px;
   background: radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%);
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none;
 }
 
@@ -261,7 +261,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  border: 1.5px solid var(--panel-border);
 }
 
 .total-left {
@@ -280,8 +280,8 @@ body {
   font-family: var(--font-display);
   font-size: 2.0rem; /* Slightly reduced for grid space */
   font-weight: 800;
-  color: var(--color-secondary);
-  text-shadow: 0 0 12px var(--color-secondary-glow);
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 
 .total-unit {
@@ -383,40 +383,48 @@ body {
 }
 
 .btn-toggle.start {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+  background: #000000;
+  color: #ffffff;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
 }
 
 .btn-toggle.start:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
 .btn-toggle.stop {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25);
+  background: #000000;
+  color: #ffffff;
+  border: 2.5px solid #ff3333;
+  box-shadow: 0 4px 15px rgba(255, 51, 51, 0.15);
   animation: pulse-danger 2s infinite;
 }
 
 .btn-toggle.stop:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.35);
+  background: #ff3333;
+  color: #000000;
+  border-color: #ff3333;
+  box-shadow: 0 6px 20px rgba(255, 51, 51, 0.35);
 }
 
 @keyframes pulse-danger {
-  0% { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25); }
-  50% { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5); }
-  100% { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.25); }
+  0% { box-shadow: 0 4px 15px rgba(255, 51, 51, 0.15); }
+  50% { box-shadow: 0 6px 20px rgba(255, 51, 51, 0.4); }
+  100% { box-shadow: 0 4px 15px rgba(255, 51, 51, 0.15); }
 }
 
 /* Next Button (The Largest Button!) */
 .btn-next {
   height: 80px; /* Reduced slightly to fit single screen, still very large */
   font-size: 1.5rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-  box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.15);
+  border: 2.5px solid #ffffff;
 }
 
 .btn-next svg {
@@ -426,16 +434,18 @@ body {
 }
 
 .btn-next:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  box-shadow: 0 10px 32px rgba(59, 130, 246, 0.55);
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 10px 32px rgba(255, 255, 255, 0.25);
 }
 
 /* Reset Button style */
 .btn-reset {
   height: 48px; /* Slightly more compact */
   font-size: 0.9rem;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid var(--panel-border);
+  background: #000000;
+  border: 2px solid #525252;
   color: var(--text-muted);
   margin-top: 8px; /* Reduced margin */
   flex-shrink: 0;
@@ -450,15 +460,15 @@ body {
 }
 
 .btn-reset:hover {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.3);
-  color: #fca5a5;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
+  background: #ff3333;
+  border-color: #ff3333;
+  color: #000000;
+  box-shadow: 0 4px 15px rgba(255, 51, 51, 0.2);
 }
 
 .btn-reset:hover svg {
   opacity: 1;
-  fill: #fca5a5;
+  fill: #000000;
   transform: rotate(-45deg);
 }
 
@@ -509,8 +519,8 @@ body {
 
 /* Modern Timeline Stage Logs */
 .stage-log-card {
-  background: rgba(30, 41, 59, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #000000;
+  border: 1.5px solid #333333;
   border-radius: 16px;
   padding: 12px 16px;
   display: flex;
@@ -540,9 +550,9 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  background: rgba(6, 182, 212, 0.1);
-  border: 1px solid rgba(6, 182, 212, 0.15);
-  color: var(--color-primary);
+  background: #000000;
+  border: 1.5px solid #ffffff;
+  color: #ffffff;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 0.9rem;
@@ -581,7 +591,7 @@ body {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--color-secondary);
+  color: #ffffff;
   margin-top: 1px;
   margin-bottom: 2px;
   letter-spacing: 0.2px;
@@ -626,18 +636,17 @@ body {
   bottom: 24px;
   left: 24px;
   right: 24px;
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 4px solid var(--color-primary);
+  background: #000000;
+  border: 2px solid #ffffff;
   border-radius: 12px;
   padding: 12px 16px;
-  color: var(--text-main);
+  color: #ffffff;
   font-size: 0.8rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
   transform: translateY(100px);
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -652,7 +661,7 @@ body {
 .toast svg {
   width: 18px;
   height: 18px;
-  fill: var(--color-primary);
+  fill: #ffffff;
 }
 
 /* Confirm Dialog Styling */
@@ -681,12 +690,12 @@ body {
 .confirm-card {
   width: 85%;
   max-width: 320px;
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000000;
+  border: 2px solid #ffffff;
   border-radius: 24px;
   padding: 24px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8);
   transform: scale(0.9);
   transition: var(--transition-smooth);
 }
@@ -721,16 +730,33 @@ body {
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
 }
 
 .btn-confirm-cancel {
-  background: #334155;
-  border: none;
-  color: var(--text-main);
+  background: #000000;
+  border: 2px solid #a3a3a3;
+  color: #a3a3a3;
+}
+
+.btn-confirm-cancel:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
 }
 
 .btn-confirm-ok {
-  background: var(--color-danger);
-  border: none;
+  background: #ff3333;
+  border: 2px solid #ff3333;
   color: white;
+}
+
+.btn-confirm-ok:hover {
+  background: #000000;
+  color: #ff3333;
+  border-color: #ff3333;
 }

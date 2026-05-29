@@ -144,13 +144,13 @@ function filterGpsPoint(newLat, newLon, newAccuracy, newTimestamp) {
   if (newAccuracy > 50) {
     gpsStatusTextEl.textContent = 'Słaba dokładność';
     gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
-    gpsDotEl.className = 'gps-dot acquiring';
+    gpsDotEl.setAttribute('class', 'gps-dot acquiring');
     return false;
   }
 
   if (!lastPosition) {
     lastPosition = { lat: newLat, lon: newLon, accuracy: newAccuracy, timestamp: newTimestamp };
-    gpsDotEl.className = 'gps-dot connected';
+    gpsDotEl.setAttribute('class', 'gps-dot connected');
     gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
     return true;
   }
@@ -166,7 +166,7 @@ function filterGpsPoint(newLat, newLon, newAccuracy, newTimestamp) {
   // If distance is less than 2 meters and speed is less than 0.5 m/s (~1.8 km/h), treat as stationary
   if (d < 0.002 || speedMs < 0.5) {
     // Just update GPS status panel without adding distance
-    gpsDotEl.className = 'gps-dot connected';
+    gpsDotEl.setAttribute('class', 'gps-dot connected');
     gpsStatusTextEl.textContent = 'Połączono (Postój)';
     gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
     return false;
@@ -184,7 +184,7 @@ function filterGpsPoint(newLat, newLon, newAccuracy, newTimestamp) {
 
   lastPosition = { lat: newLat, lon: newLon, accuracy: newAccuracy, timestamp: newTimestamp };
 
-  gpsDotEl.className = 'gps-dot connected';
+  gpsDotEl.setAttribute('class', 'gps-dot connected');
   gpsStatusTextEl.textContent = 'Połączono';
   gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
 
@@ -244,7 +244,7 @@ function startTracking() {
     startDemoSimulation();
   } else {
     // Start Geolocation watch
-    gpsDotEl.className = 'gps-dot acquiring';
+    gpsDotEl.setAttribute('class', 'gps-dot acquiring');
     gpsStatusTextEl.textContent = 'Ustalanie pozycji...';
 
     if ("geolocation" in navigator) {
@@ -259,7 +259,7 @@ function startTracking() {
         },
         (error) => {
           console.error('GPS Watch error:', error);
-          gpsDotEl.className = 'gps-dot error';
+          gpsDotEl.setAttribute('class', 'gps-dot error');
           let errorMsg = 'Błąd GPS';
           if (error.code === error.PERMISSION_DENIED) {
             errorMsg = 'Brak uprawnień GPS';
@@ -278,7 +278,7 @@ function startTracking() {
         }
       );
     } else {
-      gpsDotEl.className = 'gps-dot error';
+      gpsDotEl.setAttribute('class', 'gps-dot error');
       gpsStatusTextEl.textContent = 'Brak GPS w przeglądarce';
       showToast('Wyszukiwanie lokalizacji nie jest wspierane');
     }
@@ -323,7 +323,7 @@ function stopTracking() {
 
   lastPosition = null;
 
-  gpsDotEl.className = 'gps-dot';
+  gpsDotEl.setAttribute('class', 'gps-dot');
   gpsStatusTextEl.textContent = state.demoActive ? 'Tryb Demo gotowy' : 'Śledzenie wyłączone';
   gpsAccuracyEl.textContent = '';
 
@@ -418,7 +418,7 @@ function resetAll() {
 
 // --- DEMO MODE SIMULATOR ---
 function startDemoSimulation() {
-  gpsDotEl.className = 'gps-dot connected';
+  gpsDotEl.setAttribute('class', 'gps-dot connected');
   gpsStatusTextEl.textContent = 'Tryb Demo (W ruchu)';
 
   // Base coordinates near a scenic route (e.g. Tatra mountains / Zakopane road)
@@ -474,14 +474,14 @@ function handleHiddenDemoTrigger() {
     state.demoActive = !state.demoActive;
 
     if (state.demoActive) {
-      gpsDotEl.className = 'gps-dot acquiring';
+      gpsDotEl.setAttribute('class', 'gps-dot acquiring');
       gpsStatusTextEl.textContent = 'Tryb Demo aktywny';
       showToast('Aktywowano ukryty Symulator GPS');
     } else {
       if (state.trackingActive) {
         stopTracking();
       }
-      gpsDotEl.className = 'gps-dot';
+      gpsDotEl.setAttribute('class', 'gps-dot');
       gpsStatusTextEl.textContent = 'Śledzenie wyłączone';
       showToast('Wyłączono Symulator GPS');
     }

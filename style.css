@@ -174,7 +174,7 @@ body {
 /* Dashboard Main Layout Row */
 .dashboard-main-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 2fr 1fr; /* 2/3 and 1/3 split */
   gap: 16px;
   align-items: stretch;
 }
@@ -183,8 +183,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 108px;
-  flex-shrink: 0;
+  width: 100%; /* Occupy full 1/3 column width */
 }
 
 .stage-card {
@@ -258,7 +257,7 @@ body {
 
 /* Total Odometer Card (Moved inside controls column) */
 .total-card {
-  width: 108px;
+  width: 100%; /* Stretch to fill 1/3 column width */
   padding: 12px 8px;
   display: flex;
   flex-direction: column;
@@ -374,7 +373,7 @@ body {
 
 /* Start / Stop Button (Sleek Vertical) */
 .btn-toggle {
-  width: 108px;
+  width: 100%; /* Stretch to fill 1/3 column width */
   height: auto;
   font-size: 1.1rem;
   color: #ffffff;

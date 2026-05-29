@@ -1,6 +1,6 @@
 /* sw.js - Service Worker for Roadbook PWA (Offline Support & Android Install Prompt) */
 
-const CACHE_NAME = 'roadbook-cache-v4';
+const CACHE_NAME = 'roadbook-cache-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

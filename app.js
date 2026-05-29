@@ -141,7 +141,7 @@ function deg2rad(deg) {
 // --- GPS NOISE FILTER ---
 function filterGpsPoint(newLat, newLon, newAccuracy, newTimestamp) {
   // 1. Ignore low accuracy points
-  if (newAccuracy > 25) {
+  if (newAccuracy > 50) {
     gpsStatusTextEl.textContent = 'Słaba dokładność';
     gpsAccuracyEl.textContent = `dokładność: ±${Math.round(newAccuracy)}m`;
     gpsDotEl.className = 'gps-dot acquiring';

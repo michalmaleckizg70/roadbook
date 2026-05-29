@@ -11,8 +11,8 @@
   
   --color-primary: #ffffff;     /* Stark White */
   --color-primary-glow: rgba(255, 255, 255, 0.6);
-  --color-secondary: #00ff66;   /* Bright Neon Green for GPS Antenna */
-  --color-secondary-glow: rgba(0, 255, 102, 0.5);
+  --color-secondary: #ffffff;   /* Stark White for GPS Antenna */
+  --color-secondary-glow: rgba(255, 255, 255, 0.5);
   --color-danger: #ff3333;      /* Stark Red for GPS Error / Stop buttons */
   --color-danger-glow: rgba(255, 51, 51, 0.5);
   --color-warning: #ffffff;     /* Stark White */

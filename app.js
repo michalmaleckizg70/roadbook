@@ -214,8 +214,8 @@ function updateTimers() {
   const currentStageElapsed = state.stageElapsedMs + (state.trackingActive ? (now - state.stageStartTime) : 0);
   const currentTotalElapsed = state.totalElapsedMs + (state.trackingActive ? (now - state.totalStartTime) : 0);
 
-  stageTimeEl.textContent = formatDuration(currentStageElapsed);
-  totalTimeEl.textContent = formatDuration(currentTotalElapsed);
+  if (stageTimeEl) stageTimeEl.textContent = formatDuration(currentStageElapsed);
+  if (totalTimeEl) totalTimeEl.textContent = formatDuration(currentTotalElapsed);
 }
 
 // --- GPS START/STOP LOGIC ---
@@ -337,6 +337,7 @@ function nextStage() {
 
   const now = Date.now();
   const currentStageElapsed = state.stageElapsedMs + (state.trackingActive ? (now - state.stageStartTime) : 0);
+  const currentTotalElapsed = state.totalElapsedMs + (state.trackingActive ? (now - state.totalStartTime) : 0);
 
   // 1. Save current stage if distance > 0 or has elapsed time
   if (state.stageDistance > 0 || currentStageElapsed > 0) {
@@ -346,6 +347,7 @@ function nextStage() {
       distance: state.stageDistance,
       totalDistance: state.totalDistance,
       durationMs: currentStageElapsed,
+      totalDurationMs: currentTotalElapsed,
       timestamp: Date.now()
     };
 
@@ -406,8 +408,8 @@ function resetAll() {
   updateUI();
   renderHistory();
 
-  stageTimeEl.textContent = '00:00';
-  totalTimeEl.textContent = '00:00';
+  if (stageTimeEl) stageTimeEl.textContent = '00:00';
+  if (totalTimeEl) totalTimeEl.textContent = '00:00';
 
   showToast('Leczniki zresetowane do zera');
 
@@ -515,6 +517,7 @@ function renderHistory() {
 
     const formattedTime = new Date(stage.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const durationText = formatDuration(stage.durationMs);
+    const totalDurationText = formatDuration(stage.totalDurationMs !== undefined ? stage.totalDurationMs : stage.durationMs);
     const totalDist = stage.totalDistance !== undefined ? stage.totalDistance : stage.distance;
 
     card.innerHTML = `
@@ -528,7 +531,8 @@ function renderHistory() {
       <div class="stage-log-right">
         <div class="stage-log-distance">${stage.distance.toFixed(2)} km</div>
         <div class="stage-log-cumulative">Suma: ${totalDist.toFixed(2)} km</div>
-        <div class="stage-duration">${durationText}</div>
+        <div class="stage-duration">Czas: ${durationText}</div>
+        <div class="stage-duration">Suma: ${totalDurationText}</div>
       </div>
     `;
     historyListEl.appendChild(card);

@@ -251,7 +251,7 @@ body {
 /* Total Odometer Grid Card */
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1.05fr; /* 2 compact columns side-by-side! */
+  grid-template-columns: 1fr; /* Full-width layout */
   gap: 12px;
   flex-shrink: 0;
 }

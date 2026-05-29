@@ -36,8 +36,8 @@
     <!-- Main Dashboard -->
     <main class="dashboard">
       
-      <!-- Stage Odometer & Start/Stop Control Row -->
-      <div class="stage-row">
+      <!-- Stage & Total Odometer Row -->
+      <div class="dashboard-main-row">
         <!-- Stage Odometer Card -->
         <div class="glass-card stage-card">
           <div class="odometer-label">
@@ -53,28 +53,25 @@
           </div>
         </div>
         
-        <!-- Toggle Button (Start/Stop) -->
-        <button class="btn btn-toggle start" id="btn-toggle">
-          <!-- SVG Play Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          Start
-        </button>
-      </div>
-      
-      <!-- Stats Grid (Total distance & Timers) -->
-      <div class="stats-grid">
-        
-        <!-- Total Odometer Card -->
-        <div class="glass-card total-card">
-          <div class="total-left">
-            <div class="odometer-label" style="justify-content: flex-start; margin-bottom: 2px;">
+        <!-- Controls Column (Start Button + Total Odometer) -->
+        <div class="dashboard-controls-column">
+          <!-- Toggle Button (Start/Stop) -->
+          <button class="btn btn-toggle start" id="btn-toggle">
+            <!-- SVG Play Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Start
+          </button>
+          
+          <!-- Total Odometer Card -->
+          <div class="glass-card total-card">
+            <div class="odometer-label">
               <!-- SVG Map Icon -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
               </svg>
-              Suma Trasy
+              Suma
             </div>
             <div class="total-value-container">
               <div class="total-value" id="total-odo">0.00</div>
@@ -82,7 +79,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       </div>
       

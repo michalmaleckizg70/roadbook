@@ -3,9 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-dark: #000000;
-  --bg-gradient: linear-gradient(180deg, #0f0f0f 0%, #000000 100%);
-  --panel-bg: #000000;
+  --bg-dark: #02140d;
+  --bg-gradient: linear-gradient(180deg, #062217 0%, #010c08 100%);
+  --panel-bg: #041c12;
   --panel-border: #ffffff;
   --panel-glow: rgba(255, 255, 255, 0.1);
   
@@ -86,13 +86,13 @@ body {
 /* GPS Status Bar */
 .gps-bar {
   padding: calc(12px + env(safe-area-inset-top, 0)) 24px 12px 24px;
-  background: #000000;
+  background: var(--bg-dark);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
   font-weight: 600;
-  border-bottom: 1.5px solid #262626;
+  border-bottom: 1.5px solid #0f3d2a;
 }
 
 .gps-status {
@@ -312,7 +312,7 @@ body {
   justify-content: center;
   gap: 6px;
   padding: 12px 16px;
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(4, 28, 18, 0.3);
   border: 1px solid var(--panel-border);
   border-radius: 20px;
   font-size: 0.8rem;
@@ -396,7 +396,7 @@ body {
 }
 
 .btn-toggle.start {
-  background: #000000;
+  background: var(--bg-dark);
   color: #ffffff;
   border: 2.5px solid #ffffff;
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
@@ -404,13 +404,13 @@ body {
 
 .btn-toggle.start:hover {
   background: #ffffff;
-  color: #000000;
+  color: var(--bg-dark);
   border-color: #ffffff;
   box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
 .btn-toggle.stop {
-  background: #000000;
+  background: var(--bg-dark);
   color: #ffffff;
   border: 2.5px solid #ff3333;
   box-shadow: 0 4px 15px rgba(255, 51, 51, 0.15);
@@ -419,7 +419,7 @@ body {
 
 .btn-toggle.stop:hover {
   background: #ff3333;
-  color: #000000;
+  color: var(--bg-dark);
   border-color: #ff3333;
   box-shadow: 0 6px 20px rgba(255, 51, 51, 0.35);
 }
@@ -435,7 +435,7 @@ body {
   height: 80px; /* Reduced slightly to fit single screen, still very large */
   font-size: 1.5rem;
   background: #ffffff;
-  color: #000000;
+  color: var(--bg-dark);
   box-shadow: 0 8px 28px rgba(255, 255, 255, 0.15);
   border: 2.5px solid #ffffff;
 }
@@ -447,7 +447,7 @@ body {
 }
 
 .btn-next:hover {
-  background: #000000;
+  background: var(--bg-dark);
   color: #ffffff;
   border-color: #ffffff;
   box-shadow: 0 10px 32px rgba(255, 255, 255, 0.25);
@@ -457,8 +457,8 @@ body {
 .btn-reset {
   height: 48px; /* Slightly more compact */
   font-size: 0.9rem;
-  background: #000000;
-  border: 2px solid #525252;
+  background: var(--bg-dark);
+  border: 2px solid #0f3d2a;
   color: var(--text-muted);
   margin-top: 8px; /* Reduced margin */
   flex-shrink: 0;
@@ -475,13 +475,13 @@ body {
 .btn-reset:hover {
   background: #ff3333;
   border-color: #ff3333;
-  color: #000000;
+  color: var(--bg-dark);
   box-shadow: 0 4px 15px rgba(255, 51, 51, 0.2);
 }
 
 .btn-reset:hover svg {
   opacity: 1;
-  fill: #000000;
+  fill: var(--bg-dark);
   transform: rotate(-45deg);
 }
 
@@ -532,8 +532,8 @@ body {
 
 /* Modern Timeline Stage Logs */
 .stage-log-card {
-  background: #000000;
-  border: 1.5px solid #333333;
+  background: var(--panel-bg);
+  border: 1.5px solid #0f3d2a;
   border-radius: 16px;
   padding: 12px 16px;
   display: flex;
@@ -563,7 +563,7 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  background: #000000;
+  background: var(--bg-dark);
   border: 1.5px solid #ffffff;
   color: #ffffff;
   font-family: var(--font-display);
@@ -649,7 +649,7 @@ body {
   bottom: 24px;
   left: 24px;
   right: 24px;
-  background: #000000;
+  background: var(--panel-bg);
   border: 2px solid #ffffff;
   border-radius: 12px;
   padding: 12px 16px;
@@ -703,7 +703,7 @@ body {
 .confirm-card {
   width: 85%;
   max-width: 320px;
-  background: #000000;
+  background: var(--panel-bg);
   border: 2px solid #ffffff;
   border-radius: 24px;
   padding: 24px;
@@ -751,14 +751,14 @@ body {
 }
 
 .btn-confirm-cancel {
-  background: #000000;
+  background: var(--bg-dark);
   border: 2px solid #a3a3a3;
   color: #a3a3a3;
 }
 
 .btn-confirm-cancel:hover {
   background: #ffffff;
-  color: #000000;
+  color: var(--bg-dark);
   border-color: #ffffff;
 }
 
@@ -769,7 +769,7 @@ body {
 }
 
 .btn-confirm-ok:hover {
-  background: #000000;
+  background: var(--bg-dark);
   color: #ff3333;
   border-color: #ff3333;
 }
